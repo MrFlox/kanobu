@@ -2,6 +2,5 @@
 Rock, Paper, Scissors game
 
 
-![Screenshot 2022-06-30 at 18 07 53](https://user-images.githubusercontent.com/7479866/176725934-32967345-2fc7-4592-bb6a-234198ff1c1c.png)
-
+https://user-images.githubusercontent.com/7479866/176741085-e8ff5445-d858-40a0-b4f8-acebdbe66ac6.mov
 
