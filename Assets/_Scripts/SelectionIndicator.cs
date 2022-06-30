@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public enum PlayerTypes
@@ -11,13 +12,20 @@ public class SelectionIndicator : MonoBehaviour
     [SerializeField] Figures figure;
     [SerializeField] PlayerTypes type;
     [SerializeField] Sprite stone, scissors, paper;
+    [SerializeField] float animationTime = .5f;
     SpriteRenderer currentSprite;
 
+    Vector3 initialScale, initialPosition;
     void Awake()
     {
+        initialScale = transform.localScale;
+        initialPosition = transform.position;
         currentSprite = GetComponent<SpriteRenderer>();
         currentSprite.sprite = null;
         GameManager.OnGameStateChanged += onChangeState;
+
+        //---------
+        iTween.Defaults.easeType = iTween.EaseType.easeOutElastic;
     }
 
     private void onChangeState(GameState state)
@@ -37,6 +45,7 @@ public class SelectionIndicator : MonoBehaviour
         if (type == PlayerTypes.pc && state == GameState.PCTimeout)
         {
             currentSprite.sprite = null;
+            transform.localScale = initialScale;
         }
     }
 
@@ -54,5 +63,14 @@ public class SelectionIndicator : MonoBehaviour
                 currentSprite.sprite = scissors;
                 break;
         }
+
+        animate();
+    }
+
+    private void animate()
+    {
+        transform.position = new Vector3(initialPosition.x, initialPosition.y + 4, initialPosition.z);
+        iTween.ScaleTo(gameObject, initialScale * 2f, animationTime);
+        iTween.MoveTo(gameObject, initialPosition, animationTime);
     }
 }

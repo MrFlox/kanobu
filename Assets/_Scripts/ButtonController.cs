@@ -14,10 +14,14 @@ public class ButtonController : MonoBehaviour
 {
     [SerializeField] Figures figure;
 
-    void OnMouseDown()
+    Vector3 startScale;
+
+    void Awake() => startScale = transform.localScale;
+    void OnMouseDown() => transform.localScale = startScale * .8f;
+
+    void OnMouseUp()
     {
+        transform.localScale = startScale;
         GameManager.Instance.newFigure(figure);
     }
-
-
 }
