@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum PlayerTypes
@@ -25,13 +22,22 @@ public class SelectionIndicator : MonoBehaviour
 
     private void onChangeState(GameState state)
     {
-
         if (type == PlayerTypes.player && state == GameState.PlayerStep)
-            figure = GameManager.Instance.playerFigure;
-        else if (type == PlayerTypes.pc && state == GameState.PCStep)
-            figure = GameManager.Instance.pcFigure;
+        {
 
-        updateImage();
+            figure = GameManager.Instance.playerFigure;
+            updateImage();
+        }
+        else if (type == PlayerTypes.pc && state == GameState.PCStep)
+        {
+            figure = GameManager.Instance.pcFigure;
+            updateImage();
+        }
+
+        if (type == PlayerTypes.pc && state == GameState.PCTimeout)
+        {
+            currentSprite.sprite = null;
+        }
     }
 
     private void updateImage()

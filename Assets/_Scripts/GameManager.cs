@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -11,6 +10,7 @@ public class GameManager : MonoBehaviour
     public Figures pcFigure;
     public GameState State;
     static public GameManager Instance;
+    [SerializeField] float pcTimeoutTime = 1;
 
     public static event Action<GameState> OnGameStateChanged;
 
@@ -70,15 +70,21 @@ public class GameManager : MonoBehaviour
         scoreText.text = value;
     }
 
-    private void HandlePlayerStep()
+    IEnumerator makePcStep()
     {
+        yield return new WaitForSeconds(pcTimeoutTime);
         Figures[] figures = { Figures.Paper, Figures.Stone, Figures.Scissors };
 
         Figures fig = figures[UnityEngine.Random.Range(0, figures.Length)];
         pcFigure = fig;
         Debug.Log("PC: " + pcFigure);
         UpdateGameState(GameState.PCStep);
+    }
 
+    private void HandlePlayerStep()
+    {
+        UpdateGameState(GameState.PCTimeout);
+        StartCoroutine(makePcStep());
     }
 
     void Awake()
@@ -92,4 +98,5 @@ public enum GameState
 {
     PlayerStep,
     PCStep,
+    PCTimeout
 }
